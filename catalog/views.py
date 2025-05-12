@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from catalog.models import Product
+
 
 def home(request):
+    sorted_products = Product.objects.order_by('created_at')
+    for i in range(5):
+        print(sorted_products[i])
     return render(request, "catalog/home.html")
 
 
