@@ -11,6 +11,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("id", "product_name", "price", "category",)
+    list_display = ("id", "product_name", "price", "category_name",)
     search_fields = ("product_name", "product_description",)
-    list_filter = ("category",)
+    list_filter = ("category__category_name",)
+
+    @admin.display(description="Категория")
+    def category_name(self, obj):
+        return obj.category.category_name
