@@ -1,0 +1,29 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block title %}{{product.product_name}}{% endblock %}
+{% block content_1 %}
+{% include 'catalog/includes/header.html' %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h2 class="display-6">{{ product.category.category_name }}</h2>
+    <h1 class="lead-6">{{ product.product_name }}</h1>
+	
+</div>
+{% endblock %}
+{% block content_2 %}
+<div class="row text-center">
+		<div class="card mb-4 box-shadow text-center">
+			<div class="card-header">
+					<img src="{{ product.image | media_filter }}" class="img-fluid rounded mx-auto d-block" alt="..." style="width: 300px; height: 300px">
+			</div>
+			<div class="card-body">
+				<p>{{ product.product_description }}</p>
+				<h2>{{ product.price }} руб.</h2>
+				<a class="p-2 btn btn-outline-primary mt-3" href="{% url 'catalog:home' %}">В каталог</a>
+				<div class="text-end mt-2">
+					<p class="card-text"><small class="text-muted">Создан: {{product.created_at | date:"d M Y"}}</small></p>
+					<p class="card-text"><small class="text-muted">Изменен: {{product.updated_at | date:"d M Y"}}</small></p>
+				</div>
+			</div>
+		</div>
+</div>
+{% endblock %}

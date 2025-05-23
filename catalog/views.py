@@ -1,14 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
-from catalog.models import Product
+from catalog.models import Product, Category
 
 
 def home(request):
-    sorted_products = Product.objects.order_by('created_at')
-    for i in range(5):
-        print(sorted_products[i])
-    return render(request, "catalog/home.html")
+    products = Product.objects.all()
+    top_5 = Category.objects.order_by('-category_name')[:5]
+    context = {
+        "products": products,
+        "top_catrgory": top_5
+    }
+    return render(request, "catalog/home.html", context)
 
 
 def contacts(request):
@@ -21,3 +24,11 @@ def contacts(request):
             f"Ваше имя: {name}, номер телефона: {phone}, сообщение: {message}"
         )
     return render(request, "catalog/contacts.html")
+
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    context = {
+        "product": product
+    }
+    return render(request, "catalog/product_detail.html", context)
