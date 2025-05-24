@@ -1,15 +1,22 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse
 from django.contrib import messages
 from catalog.models import Product, Category
 from catalog.forms import ProductForm
+from django.core.paginator import Paginator
+
 
 def home(request):
     products = Product.objects.all()
     top_5 = Category.objects.order_by('-category_name')[:5]
+    paginator = Paginator(products, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "products": products,
-        "top_catrgory": top_5
+        "top_category": top_5,
+        "page_obj": page_obj,
+        "paginator": paginator
     }
     return render(request, "catalog/home.html", context)
 
@@ -28,8 +35,10 @@ def contacts(request):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    referer = request.META.get('HTTP_REFERER', reverse("catalog:home"))
     context = {
-        "product": product
+        "product": product,
+        "referer": referer
     }
     return render(request, "catalog/product_detail.html", context)
 
