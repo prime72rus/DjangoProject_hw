@@ -1,0 +1,71 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Добавить товар{% endblock %}
+{% block content_1 %}
+{% include 'catalog/includes/header.html' %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+	<h1 class="display-4">Добавить новый товар</h1>
+</div>
+{% endblock %}
+{% block content_2 %}
+<div class="container">
+	<h1>Форма добавления товара</h1>
+	{% if messages %}
+	<div class="alert alert-success">
+		{% for message in messages %}
+		<div>{{ message }}</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+	<form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+		{% csrf_token %}
+		<div class="container">
+			
+			<div class="mb-3">
+				<div>{{ form.product_name.label_tag }}</div>
+				<div>{{ form.product_name }}</div>
+				<div class="invalid-feedback">
+					{{ form.product_name.errors }}
+				</div>
+			</div>
+			
+			<div class="mb-3">
+				<div>{{ form.product_description.label_tag }}</div>
+				<div>{{ form.product_description }}</div>
+				<div class="invalid-feedback">
+					{{ form.product_description.errors }}
+				</div>
+			</div>
+			
+			<div class="mb-3">
+				<div>{{ form.price.label_tag }}</div>
+				<div class="input-group">
+					{{ form.price }}
+					<span class="input-group-text">руб.</span>
+				</div>
+				<div class="invalid-feedback">
+					{{ form.price.errors }}
+				</div>
+			</div>
+			<div class="mb-3">
+				<div>{{ form.category.label_tag }}</div>
+				<div>{{ form.category }}</div>
+				<div class="invalid-feedback">
+					{{ form.category.errors }}
+				</div>
+			</div>
+			<div class="mb-3">
+				<div>{{ form.image.label_tag }}</div>
+				<div>{{ form.image }}</div>
+				<div class="invalid-feedback">
+					{{ form.image.errors }}
+				</div>
+			</div>
+		</div>
+		
+		<button type="submit" class="btn btn-primary">Добавить продукт</button>
+	
+	</form>
+</div>
+
+
+{% endblock %}

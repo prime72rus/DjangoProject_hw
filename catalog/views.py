@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-
+from django.contrib import messages
 from catalog.models import Product, Category
-
+from catalog.forms import ProductForm
 
 def home(request):
     products = Product.objects.all()
@@ -32,3 +32,18 @@ def product_detail(request, pk):
         "product": product
     }
     return render(request, "catalog/product_detail.html", context)
+
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Продукт успешно добавлен!')
+            return redirect('/add_product/')  # Перенаправляем на ту же страницу
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+    else:
+        form = ProductForm()
+
+    return render(request, 'catalog/add_product.html', {'form': form})

@@ -15,7 +15,7 @@
 		<div class="card mb-4 box-shadow">
 			<div class="card-header">
 				<h4 class="card-title pricing-card-title">{{ product.category.category_name }}</h4>
-				<img src="{{ product.image | media_filter }}" class="img-fluid" alt="...">
+				<img src="{{ product.image | media_filter }}" class="img-fluid" style="max-width: auto; max-height: 150px;" alt="...">
 			</div>
 			<div class="card-body">
 				<h3 class="card-title pricing-card-title">{{ product.product_name | truncatechars:22  }}</h3>
