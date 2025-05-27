@@ -20,7 +20,6 @@
                     <form method="post" enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
                         
-                        <!-- Поле заголовка -->
                         <div class="mb-3">
                             <label for="id_title" class="form-label">
                                 Заголовок <span class="text-danger">*</span>
@@ -42,7 +41,6 @@
                             {% endif %}
                         </div>
                         
-                        <!-- Поле содержимого -->
                         <div class="mb-3">
                             <label for="id_content" class="form-label">
                                 Содержание <span class="text-danger">*</span>
@@ -63,7 +61,6 @@
                             {% endif %}
                         </div>
                         
-                        <!-- Поле загрузки изображения -->
                         <div class="mb-3">
                             <label for="id_preview" class="form-label">
                                 Превью (изображение)
@@ -84,7 +81,6 @@
                             {% endif %}
                         </div>
                         
-                        <!-- Чекбокс публикации -->
                         <div class="mb-3 form-check form-switch">
                             <input
                                 type="checkbox"
@@ -98,10 +94,8 @@
                             </label>
                         </div>
                         
-                        <!-- Скрытое поле счетчика просмотров -->
                         <input type="hidden" name="view_counter" value="0">
                         
-                        <!-- Кнопки отправки формы -->
                         <div class="d-flex justify-content-between mt-4">
                             <button type="submit" class="p-2 btn btn-outline-primary mt-3">Сохранить</button>
                             <a href="{% url 'blog:posts_list' %}" class="p-2 btn btn-outline-primary mt-3">Отмена</a>
