@@ -24,6 +24,8 @@ class PostDetailView(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         obj.view_counter += 1
+        if obj.is_public and obj.view_counter == 100:
+            obj.send_congratulation_email()
         obj.save()
         return obj
 

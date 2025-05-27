@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
 
 class Post(models.Model):
     title = models.CharField(max_length=100, verbose_name="Заголовок", help_text="Введите заголовок поста")
@@ -17,4 +20,15 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-
+    def send_congratulation_email(self):
+        subject = f'Поздравляем! Пост "{self.title}" достиг 100 просмотров!'
+        message = render_to_string('blog/email/congratulation.txt', {
+            'post': self,
+        })
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.MANAGER_EMAIL],
+            fail_silently=False,
+        )
