@@ -1,0 +1,33 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block title %}{{post.title}}{% endblock %}
+{% block content_1 %}
+{% include 'catalog/includes/header.html' %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+	<h2 class="display-6">{{ post.title }}</h2>
+
+</div>
+{% endblock %}
+{% block content_2 %}
+<div class="row">
+	<div class="card mb-4 box-shadow">
+		<div class="card-header">
+			<img src="{{ post.preview | media_filter }}" class="img-fluid rounded mx-auto d-block" alt="..."
+			     style="width: 300px; height: 300px">
+		</div>
+		<div class="card-body text-center">
+			<p>{{ post.content }}</p>
+			<a class="p-2 btn btn-outline-primary mt-3" href="{% url 'blog:posts_list' %}">К списку постов</a>
+			<a href="{% url 'blog:post_update' post.pk %}" class="p-2 btn btn-outline-primary mt-3">Редактировать пост</a>
+			<a href="{% url 'blog:post_delete' post.pk %}" class="p-2 btn btn-outline-danger mt-3">Удалить пост</a>
+			<div class="text-end mt-2">
+				<p class="card-text"><small class="text-muted">Создан: {{post.created_at }}</small></p>
+				<p class="card-text"><small class="text-muted">Изменен: {{post.updated_at }}</small></p>
+			</div>
+			<div>
+				<p class="card-text"><small class="text-muted">Просмотров: {{post.view_counter }}</small></p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
