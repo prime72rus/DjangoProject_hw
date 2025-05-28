@@ -1,28 +1,25 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib import messages
 from catalog.models import Product, Category
-from catalog.forms import ProductForm
 from django.core.paginator import Paginator
+from django.views.generic import ListView, DetailView, View
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "catalog/home.html"
+    paginate_by = 3
 
 
-def home(request):
-    products = Product.objects.all()
-    top_5 = Category.objects.order_by('-category_name')[:5]
-    paginator = Paginator(products, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+class ContactsView(View):
+    template_name = "catalog/contacts.html"
 
-    context = {
-        "top_category": top_5,
-        "page_obj": page_obj,
-        "paginator": paginator
-    }
-    return render(request, "catalog/home.html", context)
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 
-
-def contacts(request):
-    if request.method == "POST":
+    def post(self, request, *args, **kwargs):
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
@@ -30,29 +27,33 @@ def contacts(request):
             f"Контактные данные и сообщение получены: "
             f"Ваше имя: {name}, номер телефона: {phone}, сообщение: {message}"
         )
-    return render(request, "catalog/contacts.html")
 
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    referer = request.META.get('HTTP_REFERER', reverse("catalog:home"))
-    context = {
-        "product": product,
-        "referer": referer
-    }
-    return render(request, "catalog/product_detail.html", context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['referer'] = self.request.META.get(
+            'HTTP_REFERER',
+            reverse("catalog:home")
+        )
+        return context
 
 
-def add_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Продукт успешно добавлен!')
-            return redirect('/add_product/')  # Перенаправляем на ту же страницу
-        else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
-    else:
-        form = ProductForm()
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ["product_name", "product_description", "image", "category", "price"]
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy('catalog:product_create')
 
-    return render(request, 'catalog/add_product.html', {'form': form})
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Продукт успешно добавлен!')
+        return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Пожалуйста, исправьте ошибки в форме.')
+        return super().form_invalid(form)

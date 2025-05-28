@@ -1,0 +1,109 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Добавить пост{% endblock %}
+
+{% block content_1 %}
+{% include 'catalog/includes/header.html' %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Добавить новый пост</h1>
+</div>
+{% endblock %}
+
+{% block content_2 %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h2 class="h4 mb-0">Форма добавления поста</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">
+                                Заголовок <span class="text-danger">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control {% if form.title.errors %}is-invalid{% endif %}"
+                                id="id_title"
+                                name="title"
+                                value="{{ form.title.value|default_if_none:'' }}"
+                                required
+                            >
+                            {% if form.title.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.title.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_content" class="form-label">
+                                Содержание <span class="text-danger">*</span>
+                            </label>
+                            <textarea
+                                class="form-control {% if form.content.errors %}is-invalid{% endif %}"
+                                id="id_content"
+                                name="content"
+                                rows="8"
+                                required
+                            >{{ form.content.value|default_if_none:'' }}</textarea>
+                            {% if form.content.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.content.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_preview" class="form-label">
+                                Превью (изображение)
+                            </label>
+                            <input
+                                type="file"
+                                class="form-control {% if form.preview.errors %}is-invalid{% endif %}"
+                                id="id_preview"
+                                name="preview"
+                                accept="image/*"
+                            >
+                            {% if form.preview.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.preview.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3 form-check form-switch">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="id_is_public"
+                                name="is_public"
+                                {% if form.is_public.value %}checked{% endif %}
+                            >
+                            <label class="form-check-label" for="id_is_public">
+                                Опубликовать сразу
+                            </label>
+                        </div>
+                        
+                        <input type="hidden" name="view_counter" value="0">
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="p-2 btn btn-outline-primary mt-3">Сохранить</button>
+                            <a href="{% url 'blog:posts_list' %}" class="p-2 btn btn-outline-primary mt-3">Отмена</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

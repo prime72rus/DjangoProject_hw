@@ -10,7 +10,7 @@
 <div class="container">
 	<h1>Форма добавления товара</h1>
 	{% if messages %}
-	<div class="alert alert-success">
+	<div class="alert alert-success alert-dismissible fade show" id="message-alert">
 		{% for message in messages %}
 		<div>{{ message }}</div>
 		{% endfor %}
@@ -63,9 +63,22 @@
 		</div>
 		
 		<button type="submit" class="btn btn-primary">Добавить продукт</button>
+		<a href="{% url 'catalog:home' %}" class="btn btn-primary">Отмена</a>
 	
 	</form>
 </div>
-
-
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const messageAlert = document.getElementById('message-alert');
+		if (messageAlert) {
+			setTimeout(function() {
+				messageAlert.style.transition = 'opacity 0.5s';
+				messageAlert.style.opacity = '0';
+				setTimeout(function() {
+					messageAlert.remove();
+				}, 500);
+			}, 5000);
+		}
+	});
+</script>
 {% endblock %}
