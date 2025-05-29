@@ -78,4 +78,7 @@
         Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
     </div>
 </div>
+<div>
+	<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
+</div>
 {% endblock %}
