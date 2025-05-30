@@ -4,8 +4,9 @@ from django.contrib import messages
 from catalog.models import Product, Category
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from catalog.forms import ProductForm
 
 class ProductListView(ListView):
     model = Product
@@ -34,26 +35,28 @@ class ProductDetailView(DetailView):
     template_name = "catalog/product_detail.html"
     context_object_name = "product"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['referer'] = self.request.META.get(
-            'HTTP_REFERER',
-            reverse("catalog:home")
-        )
-        return context
-
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ["product_name", "product_description", "image", "category", "price"]
-    template_name = "catalog/product_form.html"
-    success_url = reverse_lazy('catalog:product_create')
+    form_class = ProductForm
+    template_name = "catalog/product_form_create.html"
+    # success_url = reverse_lazy('catalog:home')
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, 'Продукт успешно добавлен!')
-        return response
+    def get_success_url(self):
+        return reverse('catalog:product_detail', kwargs={'pk': self.object.pk})
 
-    def form_invalid(self, form):
-        messages.error(self.request, 'Пожалуйста, исправьте ошибки в форме.')
-        return super().form_invalid(form)
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/product_form_update.html"
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', kwargs={'pk': self.object.pk})
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    # form_class = ProductForm
+    template_name = "catalog/product_confirm_delete.html"
+    success_url = reverse_lazy('catalog:home')
