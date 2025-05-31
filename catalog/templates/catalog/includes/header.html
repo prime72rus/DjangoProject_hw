@@ -5,6 +5,17 @@
 			<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Каталог</a>
 			<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
 			<a class="p-2 btn btn-outline-primary" href="{% url 'blog:posts_list' %}">Мы пишем</a>
+			{% if user.is_authenticated %}
+			<form method="post" enctype="multipart/form-data" action="{% url 'users:logout' %}" style="display: inline">
+				{% csrf_token %}
+				<button type="submit" class="p-2 btn btn-outline-danger">Выйти</button>
+				<a class="p-2 btn btn-outline-primary" href="{% url 'users:user_profile_update' user.pk %}">Редактировать профиль</a>
+			</form>
+			{% else %}
+			<a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Войти</a>
+			<a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+			{% endif %}
+		
 		</nav>
 	</div>
 </header>

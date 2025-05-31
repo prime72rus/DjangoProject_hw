@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class PostListView(ListView):
     model = Post
@@ -15,8 +15,7 @@ class PostListView(ListView):
         return Post.objects.filter(is_public=True)
 
 
-
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
     template_name = "blog/post_detail.html"
     context_object_name = "post"
@@ -38,14 +37,14 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content', 'preview', 'is_public', 'view_counter']
     template_name = 'blog/post_form_create.html'
     success_url = reverse_lazy('blog:posts_list')
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'content', 'preview', 'is_public', 'view_counter']
     template_name = 'blog/post_form_update.html'
@@ -54,7 +53,7 @@ class PostUpdateView(UpdateView):
         return reverse('blog:post_detail', kwargs={'pk': self.object.pk})
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
     success_url = reverse_lazy('blog:posts_list')

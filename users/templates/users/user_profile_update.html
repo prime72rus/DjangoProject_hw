@@ -1,0 +1,32 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Редактирование профиля{% endblock %}
+{% block content_1 %}
+{% include 'catalog/includes/header.html' %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+	<h1 class="display-4">Редактирование профиля</h1>
+</div>
+{% endblock %}
+{% block content_2 %}
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-5">
+			<div class="card shadow-sm">
+				<div class="card-header">
+					<h2 class="h4 mb-0">Форма редактирования профиля пользователя</h2>
+				</div>
+				<div class="card-body">
+					<form method="post" enctype="multipart/form-data" novalidate>
+						{% csrf_token %}
+						{{ form.non_field_errors}}
+						{{ form.as_p }}
+						<div>
+							<button type="submit" class="p-2 btn btn-outline-primary">Сохранить</button>
+							<a href="{% url 'catalog:home' %}" class="p-2 btn btn-outline-primary">Отмена</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
