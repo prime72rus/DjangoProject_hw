@@ -22,8 +22,8 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name="Цена, руб.")
     created_at = models.DateField(verbose_name="Дата создания", auto_now_add=True)
     updated_at = models.DateField(verbose_name="Дата последнего изменения", auto_now=True)
-    is_public = models.BooleanField(default=False, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    is_public = models.BooleanField(default=False, blank=True, null=True, verbose_name="Разрешение на публикацию")
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Владелец")
 
     def __str__(self):
         return self.product_name

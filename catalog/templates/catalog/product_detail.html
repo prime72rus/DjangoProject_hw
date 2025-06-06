@@ -19,8 +19,15 @@
 				<p>{{ product.product_description }}</p>
 				<h2>{{ product.price }} руб.</h2>
 				<a class="p-2 btn btn-outline-primary mt-3" href="{% url 'catalog:home' %}">В каталог</a>
+				{% if user == product.owner %}
 				<a class="p-2 btn btn-outline-primary mt-3" href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
+				{% endif %}
+				{% if perms.catalog.can_unpublish_product %}
+				<a class="p-2 btn btn-outline-primary mt-3" href="{% url 'catalog:product_update' product.pk %}">Изменить признак публикации</a>
+				{% endif %}
+				{% if perms.catalog.delete_product %}
 				<a class="p-2 btn btn-outline-danger mt-3" href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
+				{% endif %}
 				<div class="text-end mt-2">
 					<p class="card-text"><small class="text-muted">Создан: {{product.created_at | date:"d M Y"}}</small></p>
 					<p class="card-text"><small class="text-muted">Изменен: {{product.updated_at | date:"d M Y"}}</small></p>

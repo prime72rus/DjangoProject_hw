@@ -1,0 +1,182 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "product_name": "Intel Core i7-14700F BOX",
+        "product_description": "LGA 1700, 8P x 2.1 ГГц, 12E x 1.5 ГГц, L2 - 28 МБ, L3 - 33 МБ, 2 х DDR4, DDR5-5600 МГц, TDP 219 Вт",
+        "image": "images/Intel_Core_i7-14700F_BOX.jpg",
+        "category": 1,
+        "price": 33499,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "product_name": "Esonic G41CPL3",
+        "product_description": "LGA 775, Intel G41, 2xDDR3-1066 МГц, 1xPCI-Ex16, Micro-ATX",
+        "image": "images/Esonic_G41CPL3.jpg",
+        "category": 2,
+        "price": 2999,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "product_name": "MSI PRO X870-P WIFI",
+        "product_description": "AM5, AMD X870, 4xDDR5-5600 МГц, 4xPCI-Ex16, 3xM.2, Standard-ATX",
+        "image": "images/MSI_PRO_X870-P_WIFI_3ffSQjq.jpg",
+        "category": 2,
+        "price": 25999,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "product_name": "MSI GeForce 210",
+        "product_description": "PCIe 2.0 1 ГБ GDDR3, 64 бит, DVI-I, HDMI, VGA (D-Sub), GPU 460 МГц",
+        "image": "images/MSI_GeForce_210.jpg",
+        "category": 3,
+        "price": 2999,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "product_name": "Sapphire AMD Radeon RX 7700 XT NITRO+",
+        "product_description": "PCIe 4.0 12 ГБ GDDR6, 192 бит, 2 x DisplayPort, 2 x HDMI",
+        "image": "images/Sapphire_AMD_Radeon_RX_7700_XT_NITRO.jpg",
+        "category": 3,
+        "price": 48799,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "product_name": "AMD A6-7480 OEM",
+        "product_description": "FM2+, 2 x 3.5 ГГц, L2 - 1 МБ, 2 х DDR3-2133 МГц, AMD Radeon R5, TDP 65 Вт",
+        "image": "images/AMD_A6-7480_OEM.jpg",
+        "category": 1,
+        "price": 699,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "product_name": "AFOX A320D4-MA5-V2",
+        "product_description": "AM4, AMD A300, 2xDDR4-2666 МГц, 1xPCI-Ex16, 1xM.2, Micro-ATX",
+        "image": "images/AFOX_A320D4-MA5-V2.jpg",
+        "category": 2,
+        "price": 3699,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "product_name": "AMD Ryzen 5 7500F OEM",
+        "product_description": "AM5, 6 x 3.7 ГГц, L2 - 6 МБ, L3 - 32 МБ, 2 х DDR5-5200 МГц, TDP 65 Вт",
+        "image": "images/AMD_Ryzen_5_7500F_OEM.jpg",
+        "category": 1,
+        "price": 13799,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+        "product_name": "ASUS GeForce GT 1030 Phoenix",
+        "product_description": "PCIe 3.0 2 ГБ GDDR5, 64 бит, DVI-D, HDMI, GPU 1252 МГц",
+        "image": "images/ASUS_GeForce_GT_1030_Phoenix.jpg",
+        "category": 3,
+        "price": 8999,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 10,
+    "fields": {
+        "product_name": "GIGABYTE H610M S2H V3 DDR4",
+        "product_description": "LGA 1700, Intel H610, 2xDDR4-3200 МГц, 1xPCI-Ex16, 1xM.2, Micro-ATX",
+        "image": "images/GIGABYTE_H610M_S2H_V2.jpg",
+        "category": 2,
+        "price": 5899,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 11,
+    "fields": {
+        "product_name": "Intel Core i5-10600KF OEM",
+        "product_description": "LGA 1200, 6 x 4.1 ГГц, L2 - 1.5 МБ, L3 - 12 МБ, 2 х DDR4-2666 МГц, TDP 125 Вт",
+        "image": "images/Intel_Core_i5-10600KF_OEM.jpg",
+        "category": 1,
+        "price": 9999,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 12,
+    "fields": {
+        "product_name": "Powercolor AMD Radeon RX 7600 Hellhound",
+        "product_description": "PCIe 4.0 8 ГБ GDDR6, 128 бит, 3 x DisplayPort, HDMI, GPU 1720 МГц",
+        "image": "images/Powercolor_AMD_Radeon_RX_7600_Hellhound.png",
+        "category": 3,
+        "price": 30499,
+        "created_at": "2025-06-06",
+        "updated_at": "2025-06-06",
+        "is_public": false,
+        "owner": 6
+    }
+}
+]

@@ -79,6 +79,8 @@
     </div>
 </div>
 <div>
+	{% if not perms.catalog.can_unpublish_product %}
 	<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
+	{% endif %}
 </div>
 {% endblock %}
