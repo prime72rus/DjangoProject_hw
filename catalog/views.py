@@ -42,9 +42,22 @@ class ProductByCategoryListView(ListView):
     paginate_by = 3
 
     def get_queryset(self):
+
         category_id = self.kwargs['pk']
         self.category = get_object_or_404(Category, id=category_id)
-        return ProductService.get_product_list_by_category(category_id)
+
+        if not CACHE_ENABLED:
+            return ProductService.get_product_list_by_category(category_id)
+
+        page = self.request.GET.get("page", 1)
+        cache_key = f"product_list_by_category_{category_id}_page_{page}"  # Добавил category_id в ключ
+        queryset = cache.get(cache_key)
+
+        if queryset is None:
+            queryset = ProductService.get_product_list_by_category(category_id)
+            cache.set(cache_key, queryset, timeout=60 * 5)
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
