@@ -66,3 +66,22 @@ class ProductForm(forms.ModelForm):
             self.add_error("product_name", "Введено запрещенное слово")
         if any(sub in str(product_description).lower() for sub in EXCLUSION_WORDS):
             self.add_error("product_description", "Введено запрещенное слово")
+
+
+class ProductModeratorForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["product_name", "is_public"]
+
+    def __init__(self, *args, **kwargs):
+        super(ProductModeratorForm, self).__init__(*args, **kwargs)
+        self.fields["product_name"].widget.attrs.update({
+            "class": "form-control",
+            "placeholder": "Введите название продукта",
+        })
+        self.fields["product_name"].disabled = True
+        self.fields['is_public'].widget = forms.CheckboxInput(attrs={
+            'class': 'form-check-input toggle-switch',
+            'role': 'switch',
+            'id': 'is_public_switch'
+        })

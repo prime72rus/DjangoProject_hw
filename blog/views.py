@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class PostListView(ListView):
     model = Post
@@ -37,23 +37,26 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content', 'preview', 'is_public', 'view_counter']
+    permission_required = "blog.add_post"
     template_name = 'blog/post_form_create.html'
     success_url = reverse_lazy('blog:posts_list')
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'content', 'preview', 'is_public', 'view_counter']
+    permission_required = "blog.change_post"
     template_name = 'blog/post_form_update.html'
 
     def get_success_url(self):
         return reverse('blog:post_detail', kwargs={'pk': self.object.pk})
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
+    permission_required = "blog.delete_post"
     success_url = reverse_lazy('blog:posts_list')
