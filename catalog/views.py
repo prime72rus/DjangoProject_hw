@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from catalog.models import Product, Category
@@ -11,8 +11,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from users.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.cache import cache
-from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from config.settings import CACHE_ENABLED
+from catalog.services import ProductService
 
 
 class ProductListView(ListView):
@@ -21,11 +22,34 @@ class ProductListView(ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        queryset = cache.get("product_list_queryset")
-        if not queryset:
+        if not CACHE_ENABLED:
+            return super().get_queryset()
+
+        page = self.request.GET.get("page", 1)
+        cache_key = f"product_list_queryset_{page}"
+        queryset = cache.get(cache_key)
+
+        if queryset is None:
             queryset = super().get_queryset()
-            cache.set("product_list_queryset", queryset, 60 * 5)
+            cache.set(cache_key, queryset, timeout=60 * 5)
         return queryset
+
+class ProductByCategoryListView(ListView):
+
+    model = Product
+    template_name = "catalog/product_list_by_category.html"
+    context_object_name = "products"
+    paginate_by = 3
+
+    def get_queryset(self):
+        category_id = self.kwargs['pk']
+        self.category = get_object_or_404(Category, id=category_id)
+        return ProductService.get_product_list_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
 
 
 class ContactsView(View):
@@ -43,7 +67,6 @@ class ContactsView(View):
             f"Ваше имя: {name}, номер телефона: {phone}, сообщение: {message}"
         )
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "catalog/product_detail.html"

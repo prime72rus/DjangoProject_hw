@@ -9,7 +9,7 @@
                 <h5>Категории</h5>
                 <ul class="list-unstyled text-small">
 	                {% for top in top_category %}
-                    <li><a class="text-muted" href="#">{{ top.category_name }}</a></li>
+                    <li><a class="text-muted" href="{% url 'catalog:products_by_category' top.pk %}">{{ top.category_name }}</a></li>
 	                {% endfor %}
                 </ul>
             </div>
