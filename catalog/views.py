@@ -10,11 +10,22 @@ from catalog.forms import ProductForm, ProductModeratorForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from users.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
 
 class ProductListView(ListView):
     model = Product
     template_name = "catalog/home.html"
     paginate_by = 3
+
+    def get_queryset(self):
+        queryset = cache.get("product_list_queryset")
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set("product_list_queryset", queryset, 60 * 5)
+        return queryset
 
 
 class ContactsView(View):
@@ -32,7 +43,7 @@ class ContactsView(View):
             f"Ваше имя: {name}, номер телефона: {phone}, сообщение: {message}"
         )
 
-
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "catalog/product_detail.html"
